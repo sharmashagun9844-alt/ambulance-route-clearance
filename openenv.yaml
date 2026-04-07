@@ -1,0 +1,54 @@
+name: ambulance-route-clearance
+version: "1.0.0"
+description: >
+  A real-world OpenEnv environment where an AI agent controls traffic signals
+  to clear the fastest route for ambulances in emergency situations across
+  3 difficulty levels — saving lives through intelligent traffic management.
+
+team: The Fine-Tuners
+
+tasks:
+  - id: 1
+    name: Single Signal Clear
+    difficulty: easy
+    description: Clear 1 red signal, light traffic, short route
+    max_steps: 20
+    score_range: [0.0, 1.0]
+
+  - id: 2
+    name: Full Route Optimization
+    difficulty: medium
+    description: Clear 3 signals across full route, moderate traffic
+    max_steps: 20
+    score_range: [0.0, 1.0]
+
+  - id: 3
+    name: Multi-Ambulance Emergency
+    difficulty: hard
+    description: 2 ambulances, 4 signals, heavy traffic, blocked road
+    max_steps: 20
+    score_range: [0.0, 1.0]
+
+action_space:
+  signal_id: integer
+  new_status: string
+  reroute: boolean
+
+observation_space:
+  ambulance_position: integer or list
+  hospital_position: integer
+  signals: list
+  blocked_roads: list
+  time_elapsed: integer
+  ambulances: integer
+  reward: float
+  done: boolean
+  message: string
+
+endpoints:
+  reset: POST /reset
+  step: POST /step
+  state: GET /state
+  tasks: GET /tasks
+  grader: GET /grader
+  baseline: GET /baseline
