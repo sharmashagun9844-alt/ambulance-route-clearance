@@ -18,6 +18,32 @@ Every second counts in a real emergency — this environment trains AI agents to
 
 ---
 
+## 🎯 The Problem Statement (The "Why")
+"In emergency response, every second counts. Traditional GPS often optimizes for the shortest distance, not the fastest clearance. This project implements a priority-based pathfinding system that clears routes for emergency vehicles by calculating dynamic traffic weights."
+
+---
+
+## 🎯 Technical Architecture (The "How")
+Since we talked about Dijkstra's or A*, use this section to explain your logic:
+
+Logic Engine: Explain how you assigned "weights" to roads (e.g., a road with high traffic has a higher weight, making the algorithm avoid it).
+
+Data Structures: Mention if you used Graphs (Nodes = Intersections, Edges = Roads) and Priority Queues.
+
+---
+
+## 🎯 The "First Principles" Section
+This is unique to you! Add a small note:
+
+"Built from scratch without high-level AI wrappers to ensure full control over the decision-making logic and system transparency."
+
+---
+
+## 🎯 Future Roadmap (The "Security" Link)
+Link this to your Cybersecurity Minor:
+
+"Planned Update: Implementing AES-256 encryption for vehicle-to-infrastructure (V2I) communication to prevent unauthorized route manipulation."
+
 ## 📋 Tasks
 
 | Task | Difficulty | Description | Signals | Ambulances |
