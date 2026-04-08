@@ -25,9 +25,11 @@ Every second counts in a real emergency — this environment trains AI agents to
 
 ## 🎯 Technical Architecture (The "How")
 
-Logic Engine: Explain how you assigned "weights" to roads (e.g., a road with high traffic has a higher weight, making the algorithm avoid it).
+Graph-Based Logic: The city environment is modeled as a directed graph where intersections are Nodes and road segments are Edges.
 
-Data Structures: Mention if you used Graphs (Nodes = Intersections, Edges = Roads) and Priority Queues.
+Dynamic Weighting: Unlike standard routing, road weights are calculated as a function of (Distance + Traffic Density + Signal State). The agent optimizes for the "Least Cost Path" to ensure the ambulance never encounters a bottleneck.
+
+Priority Queue Management: Signals are processed using a priority queue, ensuring the agent clears the intersection most critical to the ambulance's immediate trajectory first.
 
 ---
 
