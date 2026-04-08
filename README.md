@@ -24,7 +24,6 @@ Every second counts in a real emergency — this environment trains AI agents to
 ---
 
 ## 🎯 Technical Architecture (The "How")
-Since we talked about Dijkstra's or A*, use this section to explain your logic:
 
 Logic Engine: Explain how you assigned "weights" to roads (e.g., a road with high traffic has a higher weight, making the algorithm avoid it).
 
@@ -33,14 +32,12 @@ Data Structures: Mention if you used Graphs (Nodes = Intersections, Edges = Road
 ---
 
 ## 🎯 The "First Principles" Section
-This is unique to you! Add a small note:
 
 "Built from scratch without high-level AI wrappers to ensure full control over the decision-making logic and system transparency."
 
 ---
 
 ## 🎯 Future Roadmap (The "Security" Link)
-Link this to your Cybersecurity Minor:
 
 "Planned Update: Implementing AES-256 encryption for vehicle-to-infrastructure (V2I) communication to prevent unauthorized route manipulation."
 
