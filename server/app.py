@@ -1,19 +1,34 @@
-from openenv_core.env_server import create_fastapi_app
-from .environment import AmbulanceRouteEnv
-from .models import AmbulanceAction, AmbulanceObservation
+import uvicorn
 from fastapi import FastAPI
 from fastapi.responses import JSONResponse
+from .environment import AmbulanceRouteEnv
+from .models import AmbulanceAction, AmbulanceObservation
 
-# ─────────────────────────────────────────
-#  CREATE APP using OpenEnv helper
-# ─────────────────────────────────────────
+app = FastAPI(
+    title="Ambulance Route Clearance Environment",
+    description="AI agent controls traffic signals to clear ambulance routes",
+    version="1.0.0"
+)
+
 env = AmbulanceRouteEnv()
-# Remove the parentheses after AmbulanceRouteEnv
-app = create_fastapi_app(AmbulanceRouteEnv, AmbulanceAction, AmbulanceObservation)
 
 # ─────────────────────────────────────────
-#  ADDITIONAL REQUIRED ENDPOINTS
+#  REQUIRED OPENENV ENDPOINTS
 # ─────────────────────────────────────────
+
+@app.post("/reset")
+def reset(task_id: int = 1):
+    obs = env.reset(task_id=task_id)
+    return obs.model_dump()
+
+@app.post("/step")
+def step(action: AmbulanceAction):
+    obs = env.step(action)
+    return obs.model_dump()
+
+@app.get("/state")
+def state():
+    return env.state.model_dump()
 
 @app.get("/")
 def root():
@@ -138,3 +153,14 @@ def _get_feedback(score: float, reached: bool) -> str:
         return "Ambulance reached but too many steps used."
     else:
         return "Ambulance did not reach hospital."
+
+
+# ─────────────────────────────────────────
+#  MAIN — required by pyproject.toml
+# ─────────────────────────────────────────
+def main():
+    uvicorn.run("server.app:app", host="0.0.0.0", port=7860, reload=False)
+
+
+if __name__ == "__main__":
+    main()
