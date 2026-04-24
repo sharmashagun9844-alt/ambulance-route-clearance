@@ -3,33 +3,23 @@ from fastapi import FastAPI
 from fastapi.responses import JSONResponse
 from .environment import AmbulanceRouteEnv
 from .models import AmbulanceAction, AmbulanceObservation
-
 app = FastAPI(
     title="Ambulance Route Clearance Environment",
     description="AI agent controls traffic signals to clear ambulance routes",
     version="1.0.0"
 )
-
 env = AmbulanceRouteEnv()
-
-# ─────────────────────────────────────────
-#  REQUIRED OPENENV ENDPOINTS
-# ─────────────────────────────────────────
-
 @app.post("/reset")
 def reset(task_id: int = 1):
     obs = env.reset(task_id=task_id)
     return obs.model_dump()
-
 @app.post("/step")
 def step(action: AmbulanceAction):
     obs = env.step(action)
     return obs.model_dump()
-
 @app.get("/state")
 def state():
     return env.state.model_dump()
-
 @app.get("/")
 def root():
     return {
@@ -39,7 +29,6 @@ def root():
         "status": "ok",
         "description": "AI agent controls traffic signals to clear ambulance routes"
     }
-
 @app.get("/tasks")
 def tasks():
     """Returns all tasks and action schema for judges"""
@@ -73,7 +62,6 @@ def tasks():
             "reroute": "bool — True to reroute ambulance around blocked road"
         }
     }
-
 @app.get("/grader")
 def grader():
     """Returns score after episode completes"""
@@ -96,7 +84,6 @@ def grader():
         "steps_taken": steps,
         "feedback": _get_feedback(score, reached)
     }
-
 @app.get("/baseline")
 def baseline():
     """Runs baseline rule-based agent on all 3 tasks"""
@@ -117,7 +104,6 @@ def baseline():
             {"signal_id": 4, "new_status": "green", "reroute": False},
         ]
     }
-
     for task_id in [1, 2, 3]:
         test_env = AmbulanceRouteEnv()
         test_env.reset(task_id=task_id)
@@ -130,7 +116,6 @@ def baseline():
             total_reward += obs.reward
             if obs.done:
                 break
-
         score = round(min(total_reward / 1.5, 1.0), 2)
         results[f"task_{task_id}"] = {
             "score": score,
@@ -138,7 +123,6 @@ def baseline():
             "steps": test_env._step_count
         }
         total += score
-
     results["overall_score"] = round(total / 3, 2)
     return results
 
@@ -153,14 +137,7 @@ def _get_feedback(score: float, reached: bool) -> str:
         return "Ambulance reached but too many steps used."
     else:
         return "Ambulance did not reach hospital."
-
-
-# ─────────────────────────────────────────
-#  MAIN — required by pyproject.toml
-# ─────────────────────────────────────────
 def main():
     uvicorn.run("server.app:app", host="0.0.0.0", port=7860, reload=False)
-
-
 if __name__ == "__main__":
     main()
